@@ -19,7 +19,7 @@
      <x>20</x>
      <y>60</y>
      <width>561</width>
-     <height>361</height>
+     <height>401</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -259,6 +259,38 @@ QPushButton:hover {
     </property>
     <property name="alignment">
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="edituser">
+    <property name="geometry">
+     <rect>
+      <x>150</x>
+      <y>340</y>
+      <width>261</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>12</pointsize>
+      <weight>75</weight>
+      <bold>true</bold>
+      <underline>false</underline>
+      <strikeout>false</strikeout>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QPushButton {
+		background-color: rgb(85, 170, 127);
+        border: none;
+        border-radius: 10px;;
+    }</string>
+    </property>
+    <property name="text">
+     <string>Modificar credenciales</string>
+    </property>
+    <property name="autoExclusive">
+     <bool>false</bool>
     </property>
    </widget>
   </widget>
