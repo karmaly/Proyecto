@@ -1,4 +1,5 @@
 import mysql.connector
+import json
 import pandas as pd
 import scipy.io as sio
 
@@ -6,13 +7,16 @@ class BaseMySQL:
     def __init__(self):
         self.__host = 'localhost'
         self.__username = 'admin123'
-        self.__password = 'contrasena123'
+        self.__password = ''
         self.__database = 'database'
         self.__connection = None
-#nea n
+
+
+
+
 
     def validarIngreso(self, username:str, password:str):
-        if username == self.__username and password == self.__password:
+        if username  and password == self.__password:
             return True
         return False
     
@@ -24,8 +28,7 @@ class BaseMySQL:
                 password = self.__password,
                 database = self.__database
             )
-            return True
-        return False
+        
     
     def desconectar(self):
         if self.__connection:
@@ -123,7 +126,6 @@ class BaseMySQL:
             print(f"Error al cargar archivo MAT: {e}")
             return None
 
-    
     def cargarCsv(self, ruta, delimiter=','): #el código solo recibe delimitaciones por comas ',' 
         try:
             data = pd.read_csv(ruta, delimiter=delimiter)
@@ -131,4 +133,43 @@ class BaseMySQL:
         except Exception as e:
             print(f"Error al cargar archivo CSV: {e}")
             return None
-        
+    
+class manejoUsuarios():
+    def __init__(self, username:str, password:str):
+        self.__username = username
+        self.__password = password
+
+    def ingreso(self):
+        acceso = open('acceso.json', mode = 'r', encoding = 'utf8')
+        a = json.load(acceso)
+        acceso.close()
+        if (a[0]['usuario'] == self.__username) and (a[0]['contraseña'] == self.__password):
+            return True
+        return False
+    def nuevousuario(self):
+        try:
+            # Leer el contenido del archivo JSON
+            with open('acceso.json', 'r') as file:
+                data = json.load(file)
+        except json.JSONDecodeError:
+            # Si el archivo está vacío o tiene un contenido inválido, crear un nuevo diccionario
+            data = {}
+        # Verificar si la clave ya existe
+        if self.__username not in data:
+            # Agregar la nueva clave y valor
+            data[self.__username] = self.__password
+            # Guardar el contenido actualizado en el archivo JSON
+            with open('acceso.json', 'w') as file:
+                json.dump(data, file, indent=4)
+            return True
+        return False
+    def modificarpass(self):
+        if self.ingreso():
+            with open('acceso.json', 'r') as file:
+                data = json.load(file)
+            data[self.__username] = self.__password
+            # Guardar el contenido actualizado en el archivo JSON
+            with open('acceso.json', 'w') as file:
+                json.dump(data, file, indent=4)
+                        
+
