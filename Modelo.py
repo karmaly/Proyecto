@@ -141,40 +141,64 @@ class manejoUsuarios():
         acceso = open('acceso.json', mode = 'r', encoding = 'utf8')
         a = json.load(acceso)
         acceso.close()
-        if (a[0]['usuario'] == self.__username) and (a[0]['contraseña'] == self.__password):
+        if a[0]['usuario'] == self.__username and a[0]['contrasena'] == self.__password:
             return True
         return False
     
     def nuevousuario(self, username:str, password:str):
         self.__username = username
         self.__password = password
+        def verificar_usuario_nuevo(usuario, datos):
+            for entry in datos:
+                if entry['usuario'] == usuario:
+                    return False  # El usuario ya existe en el JSON
+            return True
+
+        def agregar_usuario(usuario, contraseña, datos):
+            nuevo_usuario = {'usuario': usuario, 'contrasena': contraseña}
+            datos.append(nuevo_usuario)
+
+        # Leer el archivo JSON
         try:
-            # Leer el contenido del archivo JSON
-            with open('acceso.json', 'r') as file:
-                data = json.load(file)
-        except json.JSONDecodeError:
-            # Si el archivo está vacío o tiene un contenido inválido, crear un nuevo diccionario
-            data = {}
-        # Verificar si la clave ya existe
-        if self.__username not in data:
-            # Agregar la nueva clave y valor
-            data[self.__username] = self.__password
-            # Guardar el contenido actualizado en el archivo JSON
-            with open('acceso.json', 'w') as file:
-                json.dump(data, file, indent=4)
+            with open('acceso.json', 'r') as f:
+                datos = json.load(f)
+        except FileNotFoundError:
+            datos = []
+
+        # Verificar si el usuario ya existe
+        if verificar_usuario_nuevo(self.__username, datos):
+            # Agregar nuevo usuario
+            agregar_usuario(self.__username, self.__password, datos)
+            # Guardar los datos actualizados en el archivo JSON
+            with open('acceso.json', 'w') as f:
+                json.dump(datos, f, indent=4)
             return True
         return False
-    
-    def modificarpass(self):
-        if self.ingreso():
-            with open('acceso.json', 'r') as file:
-                data = json.load(file)
-            data[self.__username] = self.__password
-            # Guardar el contenido actualizado en el archivo JSON
-            with open('acceso.json', 'w') as file:
-                json.dump(data, file, indent=4)
-            return True
-        return False
+            
+            
+
+    def modificar(self, usernameviejo:str, passwordviejo:str ,username:str, password:str):
+        if self.ingreso(usernameviejo, passwordviejo):
+            self.__username = username
+            self.__password = password
+            with open('acceso.json', 'r+') as file:
+                datos = json.load(file)
+                usuario_encontrado = False
+                for dic in datos:
+                    if dic['usuario'] == usernameviejo:
+                        dic['usuario'] = self.__username
+                        dic['contrasena'] = self.__password
+                        usuario_encontrado = True
+                        break
+                if usuario_encontrado:
+                    file.seek(0)
+                    json.dump(datos, file, ensure_ascii=False, indent=4)
+                    file.truncate()
+                    return True
+                else:
+                    return False
+
+        
     
                         
 

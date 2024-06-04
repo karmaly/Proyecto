@@ -1,6 +1,10 @@
 [
     {
-        "usuario": "admin_hospital",
-        "contraseña": "test1234*"
+        "usuario": "karol",
+        "contrasena": "78"
+    },
+    {
+        "usuario": "lola",
+        "contrasena": "2"
     }
 ]
