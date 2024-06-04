@@ -4,9 +4,10 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QLineEdit, QTabl
 from PyQt5.QtGui import QRegExpValidator, QIntValidator
 from PyQt5.QtCore import Qt,QRegExp
 from PyQt5.uic import loadUi
+from PyQt5 import QtCore, QtGui, QtWidgets
 import matplotlib.pyplot as plt
 import numpy as np 
-
+#############################################################################################
 
 class ventanaLogin(QDialog):
     def __init__(self):
@@ -24,13 +25,15 @@ class ventanaLogin(QDialog):
         self.password.setValidator(validator)
         self.minimizar.clicked.connect(self.minimizator)
         self.exit.clicked.connect(self.salir)  
-        self.ingresar.clicked.connect(self.login)  
+        self.ingresar.clicked.connect(self.login)
+        self.nuevo.clicked.connect(self.newuser)
+        self.editar.clicked.connect(self.edituser)
         self.password.setEchoMode(QLineEdit.Password)
 
     def login(self):
         username = self.username.text()
         password = self.password.text()
-        existe = self.Controller.conectarCont(username, password)
+        existe = self.Controller.ingresoCont(username, password)
         if existe:
             self.vetView = programa()
             self.vetView.show()
@@ -43,6 +46,16 @@ class ventanaLogin(QDialog):
             msgBox.setStandardButtons(QMessageBox.Ok)
             msgBox.exec()
             
+    def newuser(self):
+        self.hide()  # Ocultar la ventana 1
+        self.window2 = newuser()
+        self.window2.show()
+        
+    def edituser(self):
+        self.hide()  # Ocultar la ventana 1
+        self.window2 = edituser()
+        self.window2.show()
+    
     def salir(self):
         QApplication.quit()  
         
@@ -68,6 +81,10 @@ class ventanaLogin(QDialog):
                 # desplazamiento del cursor desde el momento en que se inició el arrastre.
         except:
             pass
+        
+        
+#############################################################################################
+
 
 class programa(QDialog):
     def __init__(self):
@@ -160,8 +177,6 @@ class programa(QDialog):
         self.lastname.setText("")
         self.age.setText("")
         self.id.setText("")
-
-        
     
     # Metodos de implementación de eventos de ratón, dado que la ventana es personalizada
 
@@ -238,7 +253,7 @@ class programa(QDialog):
             for columna in datos.columns:
                 self.Controller.insertarDatosCsvCont(archivo_id, columna)
             print(f'Archivo CSV {clave} cargado exitosamente.')
-        
+
           
 if __name__ == '__main__':
     app = QApplication(sys.argv)

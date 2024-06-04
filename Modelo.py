@@ -135,17 +135,20 @@ class BaseMySQL:
             return None
     
 class manejoUsuarios():
-    def __init__(self, username:str, password:str):
+    def __init__(self):
+        self.__username = ''
+        self.__password = ''
+
+    def ingreso(self, username:str, password:str):
         self.__username = username
         self.__password = password
-
-    def ingreso(self):
         acceso = open('acceso.json', mode = 'r', encoding = 'utf8')
         a = json.load(acceso)
         acceso.close()
         if (a[0]['usuario'] == self.__username) and (a[0]['contraseña'] == self.__password):
             return True
         return False
+    
     def nuevousuario(self):
         try:
             # Leer el contenido del archivo JSON
@@ -163,6 +166,7 @@ class manejoUsuarios():
                 json.dump(data, file, indent=4)
             return True
         return False
+    
     def modificarpass(self):
         if self.ingreso():
             with open('acceso.json', 'r') as file:
@@ -171,5 +175,8 @@ class manejoUsuarios():
             # Guardar el contenido actualizado en el archivo JSON
             with open('acceso.json', 'w') as file:
                 json.dump(data, file, indent=4)
+            return True
+        return False
+    
                         
 

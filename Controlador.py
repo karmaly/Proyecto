@@ -1,8 +1,9 @@
 from Modelo import *
 
 class controlador:
-    def __init__(self, controlador = BaseMySQL()):
+    def __init__(self, controlador = BaseMySQL(), acceso = manejoUsuarios()):
         self.__controlador = controlador
+        self.__acceso = acceso
     
     def conectarCont(self, username:str, password:str):
         bool = self.__controlador.conectar(username, password)         
@@ -37,6 +38,19 @@ class controlador:
 
     def insertarDatosCsvCont(self, archivo_id, nombre_columna):
         return self.__controlador.insertarDatosCsv(archivo_id, nombre_columna)
+
+        ####################################
+        
+    def ingresoCont(self, username:str, password:str):
+        return self.__acceso.ingreso(self, username, password)
     
+    def nuevousuarioCont(self):
+        return self.__acceso.nuevousuario()
+    
+    def modificarpassCont(self):
+        return self.__acceso.modificarpass()
+        
+    
+        
     
         
