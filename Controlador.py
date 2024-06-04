@@ -18,6 +18,10 @@ class controlador:
     def eliminarPacCont(self, identificacion:str):
         return self.__controlador.eliminarPac(identificacion)
 
+
+sorted
+
+
     
     
         
