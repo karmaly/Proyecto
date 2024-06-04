@@ -1,4 +1,6 @@
 import mysql.connector
+import pandas as pd
+import scipy.io as sio
 
 class BaseMySQL:
     def __init__(self):
@@ -31,6 +33,8 @@ class BaseMySQL:
             self.__connection = None
             return True
         return False
+    
+
 
     def validarPac(self, identificacion:str):
         query = 'SELECT * FROM pacientes WHERE identificacion = %s'
@@ -72,4 +76,59 @@ class BaseMySQL:
             pacientes = valores_columna
         return pacientes
 
+    def insertarArchivo(self, clave, tipo, ruta):
+        query = 'INSERT INTO archivos (clave, tipo, ruta) VALUES (%s, %s, %s)'
+        values = (clave, tipo, ruta)
+        cursor = self.__connection.cursor()
+        cursor.execute(query, values)
+        self.__connection.commit()
+        archivo_id = cursor.lastrowid
+        cursor.close()
+        return archivo_id
+
+    def obtenerArchivos(self, tipo=None):
+        query = 'SELECT id, clave, tipo, ruta FROM archivos'
+        if tipo:
+            query += ' WHERE tipo = %s'
+            cursor = self.__connection.cursor()
+            cursor.execute(query, (tipo,))
+        else:
+            cursor = self.__connection.cursor()
+            cursor.execute(query)
+        archivos = cursor.fetchall()
+        cursor.close()
+        return archivos
+
+    def insertarDatosMat(self, archivo_id, nombre_matriz):
+        query = 'INSERT INTO datos_mat (archivo_id, nombre_matriz) VALUES (%s, %s)'
+        values = (archivo_id, nombre_matriz)
+        cursor = self.__connection.cursor()
+        cursor.execute(query, values)
+        self.__connection.commit()
+        cursor.close()
+
+    def insertarDatosCsv(self, archivo_id, nombre_columna):
+        query = 'INSERT INTO datos_csv (archivo_id, nombre_columna) VALUES (%s, %s)'
+        values = (archivo_id, nombre_columna)
+        cursor = self.__connection.cursor()
+        cursor.execute(query, values)
+        self.__connection.commit()
+        cursor.close()
+
+    def cargarMat(self, ruta):
+        try:
+            data = sio.loadmat(ruta)
+            return data
+        except Exception as e:
+            print(f"Error al cargar archivo MAT: {e}")
+            return None
+
+    
+    def cargarCsv(self, ruta, delimiter=','): #el código solo recibe delimitaciones por comas ',' 
+        try:
+            data = pd.read_csv(ruta, delimiter=delimiter)
+            return data
+        except Exception as e:
+            print(f"Error al cargar archivo CSV: {e}")
+            return None
         

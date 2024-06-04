@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 02-06-2024 a las 15:15:06
+-- Tiempo de generación: 03-06-2024 a las 01:38:21
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -24,6 +24,43 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `archivos`
+--
+
+CREATE TABLE `archivos` (
+  `id` int(11) NOT NULL,
+  `clave` varchar(255) NOT NULL,
+  `tipo` enum('MAT','CSV') NOT NULL,
+  `ruta` varchar(255) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datos_csv`
+--
+
+CREATE TABLE `datos_csv` (
+  `id` int(11) NOT NULL,
+  `archivo_id` int(11) DEFAULT NULL,
+  `nombre_columna` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `datos_mat`
+--
+
+CREATE TABLE `datos_mat` (
+  `id` int(11) NOT NULL,
+  `archivo_id` int(11) DEFAULT NULL,
+  `nombre_matriz` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `pacientes`
 --
 
@@ -39,36 +76,76 @@ CREATE TABLE `pacientes` (
 --
 
 INSERT INTO `pacientes` (`nombre`, `apellido`, `edad`, `identificacion`) VALUES
-('MARTHA', 'FUERTE', '15', '1000476351'),
-('LINA', 'VASQUEZ', '25', '1025369784'),
-('MARCELA', 'ALVAREZ', '26', '1113537397'),
-('FRANCO', 'MESA', '22', '1783246222'),
-('CAMILA', 'PEÑA', '5', '1783364'),
-('SOFIA', 'MUEH', '45', '4786455'),
-('LINA', 'FRANCO', '45', '47895467'),
-('VALERIA', 'MEJIA', '61', '54789224'),
-('JUANA', 'ARCO', '12', '54961148'),
-('AMANDA', 'MIGUEL', '47', '566484984'),
-('JUAN', 'JURADO', '63', '57845962'),
-('JULIO', 'VEGA', '36', '61249781'),
-('MATEO', 'ASPRILLA', '10', '66974589'),
-('CHUCHO', 'HERRERA', '78', '75698664'),
-('TATA', 'HERRERA', '78', '789215'),
-('JULIO', 'MESA', '78', '78925156'),
-('PAOLA', 'HERRERA', '78', '789664'),
-('GLORIA', 'MEDINA', '60', '8896547'),
-('GINA', 'JURADO', '78', '981646'),
-('FABIO', 'PLAZA', '78', '999662');
+('MICHAEL', 'SALAZAR', '21', '1001456812'),
+('ESTEBAN', 'ARTUNDUAGA', '22', '123'),
+('LIONEL ANDRES', 'MESSI', '34', '10'),
+('JOSUE', 'PANIAGUA', '21', '789'),
+('MICHAEL DAVID', 'SALAZAR', '23', '9090'),
+('PUEDE', 'SER', '45', '456788'),
+('', '', '', ''),
+('HOLLA', 'SALUD', '34', '0880');
 
 --
 -- Índices para tablas volcadas
 --
 
 --
--- Indices de la tabla `pacientes`
+-- Indices de la tabla `archivos`
 --
-ALTER TABLE `pacientes`
-  ADD PRIMARY KEY (`identificacion`);
+ALTER TABLE `archivos`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indices de la tabla `datos_csv`
+--
+ALTER TABLE `datos_csv`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `archivo_id` (`archivo_id`);
+
+--
+-- Indices de la tabla `datos_mat`
+--
+ALTER TABLE `datos_mat`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `archivo_id` (`archivo_id`);
+
+--
+-- AUTO_INCREMENT de las tablas volcadas
+--
+
+--
+-- AUTO_INCREMENT de la tabla `archivos`
+--
+ALTER TABLE `archivos`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `datos_csv`
+--
+ALTER TABLE `datos_csv`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de la tabla `datos_mat`
+--
+ALTER TABLE `datos_mat`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- Restricciones para tablas volcadas
+--
+
+--
+-- Filtros para la tabla `datos_csv`
+--
+ALTER TABLE `datos_csv`
+  ADD CONSTRAINT `datos_csv_ibfk_1` FOREIGN KEY (`archivo_id`) REFERENCES `archivos` (`id`);
+
+--
+-- Filtros para la tabla `datos_mat`
+--
+ALTER TABLE `datos_mat`
+  ADD CONSTRAINT `datos_mat_ibfk_1` FOREIGN KEY (`archivo_id`) REFERENCES `archivos` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

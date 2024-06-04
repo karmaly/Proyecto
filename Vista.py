@@ -4,6 +4,9 @@ from PyQt5.QtWidgets import QApplication, QDialog, QMessageBox, QLineEdit, QTabl
 from PyQt5.QtGui import QRegExpValidator, QIntValidator
 from PyQt5.QtCore import Qt,QRegExp
 from PyQt5.uic import loadUi
+import matplotlib.pyplot as plt
+import numpy as np 
+
 
 class ventanaLogin(QDialog):
     def __init__(self):
@@ -82,6 +85,8 @@ class programa(QDialog):
         self.add.clicked.connect(self.anadir)
         self.cancel.clicked.connect(self.hola)
         self.erase.clicked.connect(self.borrar)
+        self.loadMat.clicked.connect(self.cargar_mat)
+        self.loadCsv.clicked.connect(self.cargar_csv)
         self.hola()
         
 
@@ -210,6 +215,29 @@ class programa(QDialog):
     def eliminar_paciente(self, row, identificacion):
         self.Controller.eliminarPacCont(identificacion)
         self.patientTable.removeRow(row)
+
+    
+    def cargar_mat(self):
+        ruta, _ = QFileDialog.getOpenFileName(self, 'Cargar archivo MAT', '', 'Archivos MAT (*.mat)')
+        if ruta:
+            clave = input('Ingrese la clave con la que quiere asociar el objeto: ')
+            archivo_id = self.Controller.insertarArchivoCont(clave, 'MAT', ruta)
+            data = self.Controller.cargarMatCont(ruta)
+            for key in data.keys():
+                if key.startswith('__'):
+                    continue
+                self.Controller.insertarDatosMatCont(archivo_id, key)
+            print(f'Archivo MAT {clave} cargado exitosamente.')
+
+    def cargar_csv(self):
+        ruta, _ = QFileDialog.getOpenFileName(self, 'Cargar archivo CSV', '', 'Archivos CSV (*.csv)')
+        if ruta:
+            clave = input('Ingrese la clave con la que quiere asociar el objeto: ')
+            archivo_id = self.Controller.insertarArchivoCont(clave, 'CSV', ruta)
+            datos = self.Controller.cargarCsvCont(ruta)
+            for columna in datos.columns:
+                self.Controller.insertarDatosCsvCont(archivo_id, columna)
+            print(f'Archivo CSV {clave} cargado exitosamente.')
         
           
 if __name__ == '__main__':

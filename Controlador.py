@@ -18,13 +18,25 @@ class controlador:
     def eliminarPacCont(self, identificacion:str):
         return self.__controlador.eliminarPac(identificacion)
 
+        ####################################
 
-sorted
-
-
+    def insertarArchivoCont(self, clave, tipo, ruta):
+        return self.__controlador.insertarArchivo(clave, tipo, ruta)
     
+    def obtenerArchivosCont(self, tipo=None):
+        return self.__controlador.obtenerArchivos(tipo)
     
-        
+    def cargarMatCont(self, ruta):
+        return self.__controlador.cargarMat(ruta)
+    
+    def cargarCsvCont(self, ruta):
+        return self.__controlador.cargarCsv(ruta)
+
+    def insertarDatosMatCont(self, archivo_id, nombre_matriz):
+        return self.__controlador.insertarDatosMat(archivo_id, nombre_matriz)
+
+    def insertarDatosCsvCont(self, archivo_id, nombre_columna):
+        return self.__controlador.insertarDatosCsv(archivo_id, nombre_columna)
     
     
         
