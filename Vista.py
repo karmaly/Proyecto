@@ -344,11 +344,8 @@ class programa(QDialog):
     def setup(self):
         self.minimizar_2.clicked.connect(self.minimizator)
         self.exit_2.clicked.connect(self.salir)
-        self.add.clicked.connect(self.anadir)
-        self.cancel.clicked.connect(self.hola)
-        self.erase.clicked.connect(self.borrar)
-        self.loadMat.clicked.connect(self.cargar_mat)
-        self.loadCsv.clicked.connect(self.cargar_csv)
+        self.pacientes.clicked.connect(self.holapac)
+        self.medicos.clicked.connect(self.holamed)
         self.hola()
 
     def minimizator(self):
@@ -358,7 +355,57 @@ class programa(QDialog):
         QApplication.quit()
         
     def hola(self):
-        self.stackedWidget.setCurrentIndex(0)
+        self.base.setCurrentIndex(0)     
+    
+    def holapac(self):
+        self.newpac.clicked.connect(lambda: self.edicionespac.setCurrentIndex(0))
+        self.editpac.clicked.connect(lambda: self.edicionespac.setCurrentIndex(1))
+        self.erasepac.clicked.connect(lambda: self.edicionespac.setCurrentIndex(2))
+        self.estudiospac.clicked.connect(lambda: self.edicionespac.setCurrentIndex(3))
+        self.pacientes_2.currentChanged.connect(self.update_widgets)
+        
+    def update_widgets(self, index):
+        if index == 0:
+            pass
+        if index == 1:
+        
+        if index == 2:
+        
+        if index == 4:
+            
+        # Obtener la página actual dentro de pacientes_2
+        current_page = self.pacientes_2.widget(index)
+        
+        # Modificar la configuración de los widgets dentro de la página actual
+        if current_page is not None:
+            # Por ejemplo, configuramos los QLineEdit y QComboBox en la página actual
+            if hasattr(current_page, "lineEdit1"):
+                current_page.lineEdit1.setText("Nuevo texto para el QLineEdit")
+            if hasattr(current_page, "comboBox1"):
+                current_page.comboBox1.setCurrentIndex(1)  # Por ejemplo, seleccionamos el segundo elemento del QComboBox
+    
+    
+    def nuevopac(self):
+        self.pacientes_2.currentChanged.connect(self.update_lineedits)
+        
+        
+        
+    def holamed(self):
+        self.base.setCurrentIndex(2)
+        self.newmed.clicked.connect(self.nuevopac)
+        self.editmed.clicked.connect(self.editarmed)
+        self.erasemed.clicked.connect(self.borrarmed)
+        
+        
+    
+        
+        
+        
+        
+        
+        
+        
+        
         
     def anadir(self):
         self.stackedWidget.setCurrentIndex(1)
