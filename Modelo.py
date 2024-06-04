@@ -7,7 +7,7 @@ class BaseMySQL:
     def __init__(self):
         self.__host = 'localhost'
         self.__username = 'admin123'
-        self.__password = ''
+        self.__password = 'contrasena123'
         self.__database = 'database'
         self.__connection = None
 
@@ -149,7 +149,9 @@ class manejoUsuarios():
             return True
         return False
     
-    def nuevousuario(self):
+    def nuevousuario(self, username:str, password:str):
+        self.__username = username
+        self.__password = password
         try:
             # Leer el contenido del archivo JSON
             with open('acceso.json', 'r') as file:

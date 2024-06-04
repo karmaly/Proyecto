@@ -44,8 +44,8 @@ class controlador:
     def ingresoCont(self, username:str, password:str):
         return self.__acceso.ingreso(self, username, password)
     
-    def nuevousuarioCont(self):
-        return self.__acceso.nuevousuario()
+    def nuevousuarioCont(self, username:str, password:str):
+        return self.__acceso.nuevousuario(username, password)
     
     def modificarpassCont(self):
         return self.__acceso.modificarpass()

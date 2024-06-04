@@ -35,7 +35,7 @@
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QPushButton" name="ingresar">
+   <widget class="QPushButton" name="guardar">
     <property name="geometry">
      <rect>
       <x>140</x>
@@ -203,7 +203,7 @@
      <bool>false</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="ingresar_2">
+   <widget class="QPushButton" name="cancelar">
     <property name="geometry">
      <rect>
       <x>310</x>

@@ -129,7 +129,7 @@
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QGroupBox" name="groupBox_2">
+   <widget class="QGroupBox" name="ingreso">
     <property name="geometry">
      <rect>
       <x>30</x>
@@ -141,7 +141,7 @@
     <property name="title">
      <string/>
     </property>
-    <widget class="QLineEdit" name="username_2">
+    <widget class="QLineEdit" name="username">
      <property name="geometry">
       <rect>
        <x>176</x>
@@ -157,7 +157,7 @@
       </font>
      </property>
     </widget>
-    <widget class="QLineEdit" name="password_3">
+    <widget class="QLineEdit" name="password">
      <property name="geometry">
       <rect>
        <x>176</x>
@@ -200,7 +200,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="ingresar_3">
+    <widget class="QPushButton" name="ingresar">
      <property name="geometry">
       <rect>
        <x>170</x>
@@ -245,7 +245,7 @@
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
      </property>
     </widget>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="cambio">
      <property name="geometry">
       <rect>
        <x>10</x>
@@ -257,7 +257,7 @@
      <property name="title">
       <string/>
      </property>
-     <widget class="QPushButton" name="ingresar">
+     <widget class="QPushButton" name="ingresar_2">
       <property name="geometry">
        <rect>
         <x>120</x>
@@ -302,7 +302,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QLineEdit" name="password">
+     <widget class="QLineEdit" name="password_1">
       <property name="geometry">
        <rect>
         <x>186</x>
@@ -342,7 +342,7 @@
        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
       </property>
      </widget>
-     <widget class="QPushButton" name="ingresar_2">
+     <widget class="QPushButton" name="cancelar">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -363,7 +363,7 @@
        <string>Cancelar</string>
       </property>
      </widget>
-     <widget class="QLineEdit" name="username">
+     <widget class="QLineEdit" name="username_1">
       <property name="geometry">
        <rect>
         <x>186</x>
