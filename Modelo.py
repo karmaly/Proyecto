@@ -11,10 +11,6 @@ class BaseMySQL:
         self.__database = 'database'
         self.__connection = None
 
-
-
-
-
     def validarIngreso(self, username:str, password:str):
         if username  and password == self.__password:
             return True

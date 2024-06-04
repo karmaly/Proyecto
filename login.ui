@@ -261,7 +261,7 @@ QPushButton:hover {
      <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
     </property>
    </widget>
-   <widget class="QPushButton" name="edituser">
+   <widget class="QPushButton" name="editar">
     <property name="geometry">
      <rect>
       <x>150</x>

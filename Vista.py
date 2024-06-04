@@ -16,8 +16,8 @@ class ventanaLogin(QDialog):
         self.Controller = controlador()
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
-        self.ventananewuser = newuser()
-        self.ventanaedituser = edituser()
+        self.ventananewuser = newuser(self)
+        self.ventanaedituser = edituser(self)
         self.setup()
 
     def setup(self):
@@ -260,10 +260,11 @@ class ventanaLogin(QDialog):
 
 #############################################################################################
           
-class newuser:
-    def __init__(self):
+class newuser(QDialog):
+    def __init__(self, ventana1):
         super().__init__()
         loadUi("newuser.ui",self)
+        self.ventana1 = ventana1
         self.Controller = controlador()
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
@@ -294,6 +295,27 @@ class newuser:
             pass
         self.guardar.clicked.connect(self.ok)
     
+    def login(self):
+        username = self.username.text()
+        password = self.password.text()
+        existe = self.Controller.ingresoCont(username, password)
+        if existe:
+            #self.vetView = programa()
+            self.vetView.show()
+            self.close()
+        else:
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Warning)
+            msgBox.setText('No existe un usuario con los \ndatos proporcionados')
+            msgBox.setWindowTitle('Datos incorrectos')
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            self.limpiar_campos()
+            msgBox.exec()
+    
+    def limpiar_campos(self):
+        self.username.setText("")
+        self.password.setText("")
+    
     def ok(self):
         username = self.username.text()
         password = self.password.text()
@@ -336,10 +358,9 @@ class newuser:
         self.password_2.setText("")
         
     def volver(self):
-        self.close()  # Cierro la ventana actual (Ventana2)
-        ventana1 = self.parent()  # Accede a la Ventana1
-        ventana1.show()
-        
+        self.hide()  # Oculto la ventana actual (Ventana2)
+        self.ventana1.show()
+
         # Metodos de implementación de eventos de ratón, dado que la ventana es personalizada
     def mousePressEvent(self, event): # Inicia el arrastre
         if event.buttons() == Qt.LeftButton:
@@ -359,23 +380,17 @@ class newuser:
         except:
             pass
     
-class edituser:
-    def __init__(self):
+class edituser(QDialog):
+    def __init__(self, ventana1):
         super().__init__()
         loadUi("modificar.ui",self)
+        self.ventana1 = ventana1
         self.Controller = controlador()
         self.setWindowFlags(Qt.FramelessWindowHint)
         self.setAttribute(Qt.WA_TranslucentBackground)
         self.ingreso.show()
         self.cambio.hide()
-        # Configurar el botón dentro del primer grupo
-        self.botonAbrirGrupo2 = self.ingreso.findChild(QPushButton, "botonAbrirGrupo2")
-        # Conectar el botón al método correspondiente
-        self.botonAbrirGrupo2.clicked.connect(self.cerrarGrupo1AbrirGrupo2)
-
-        def cerrarGrupo1AbrirGrupo2(self):
-            self.groupBox1.hide()
-            self.groupBox2.show()
+        self.setup()
 
     def setup(self):
         regex = r'^[a-zA-Z0-9]+$'
@@ -384,11 +399,18 @@ class edituser:
         self.password.setValidator(validator)
         self.minimizar.clicked.connect(self.minimizator)
         self.exit.clicked.connect(self.salir)  
-        self.guardar.clicked.connect(self.anadir)
+        self.ingresar.clicked.connect(self.cambiargrupo)
         self.cancelar.clicked.connect(self.volver)
+        self.cancelar_2.clicked.connect(self.volver)
+        self.ingresar_2.clicked.connect(self.anadir)
         self.password.setEchoMode(QLineEdit.Password)
+        self.password_1.setEchoMode(QLineEdit.Password)
         self.password_2.setEchoMode(QLineEdit.Password)
     
+    def cambiargrupo(self):
+        self.ingreso.hide()
+        self.cambio.show()
+
     def salir(self):
         QApplication.quit()  
         
@@ -402,6 +424,25 @@ class edituser:
             pass
         self.guardar.clicked.connect(self.ok)
     
+    def login(self):
+        username = self.username.text()
+        password = self.password.text()
+        existe = self.Controller.ingresoCont(username, password)
+        if existe:
+            self.cambiargrupo()
+        else:
+            msgBox = QMessageBox()
+            msgBox.setIcon(QMessageBox.Warning)
+            msgBox.setText('No existe un usuario con los \ndatos proporcionados')
+            msgBox.setWindowTitle('Datos incorrectos')
+            msgBox.setStandardButtons(QMessageBox.Ok)
+            self.limpiar_campos_ingreso()
+            msgBox.exec()
+    
+    def limpiar_campos_ingreso(self):
+        self.username.setText("")
+        self.password.setText("")
+    
     def ok(self):
         username = self.username.text()
         password = self.password.text()
@@ -419,8 +460,8 @@ class edituser:
             if bool:
                 msgBox = QMessageBox()
                 msgBox.setIcon(QMessageBox.Warning)
-                msgBox.setText('Usuario ingresado')
-                msgBox.setWindowTitle('Usuario ingresado exitosamente')
+                msgBox.setText('Cambios guardados exitosamente')
+                msgBox.setWindowTitle('Cambios guardados ingresado exitosamente')
                 msgBox.setStandardButtons(QMessageBox.Ok)
                 msgBox.exec()
             else:
@@ -444,9 +485,9 @@ class edituser:
         self.password_2.setText("")
         
     def volver(self):
-        self.close()  # Cierro la ventana actual (Ventana2)
-        ventana1 = self.parent()  # Accede a la Ventana1
-        ventana1.show()
+        self.hide()  # Oculto la ventana actual (Ventana2)
+        self.ventana1.show()
+        
         # Metodos de implementación de eventos de ratón, dado que la ventana es personalizada
     def mousePressEvent(self, event): # Inicia el arrastre
         if event.buttons() == Qt.LeftButton:
@@ -465,6 +506,8 @@ class edituser:
                 # desplazamiento del cursor desde el momento en que se inició el arrastre.
         except:
             pass
+        
+        
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     login = ventanaLogin()
